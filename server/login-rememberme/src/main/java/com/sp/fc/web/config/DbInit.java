@@ -13,7 +13,7 @@ public class DbInit implements InitializingBean {
     private SpUserService userService;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() throws Exception { // 없으면 자동으로 db 세팅
         if(!userService.findUser("user1").isPresent()){
             SpUser user = userService.save(SpUser.builder()
                     .email("user1")
