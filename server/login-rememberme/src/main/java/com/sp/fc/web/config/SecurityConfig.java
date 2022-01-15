@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import javax.servlet.http.HttpSessionEvent;
+import java.time.LocalDateTime;
+
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -88,6 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling(error->
                         error.accessDeniedPage("/access-denied")
                 )
+                .rememberMe()
                 ;
     }
 
