@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
@@ -80,6 +79,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 System.out.printf("===>> [%s] 세션 아이디 변경  %s:%s \n",  LocalDateTime.now(), oldSessionId, event.getSession().getId());
             }
         });
+    }
+
+    @Bean
+    PersistentTokenBasedRememberMeServices rememberMeServices() {
+        PersistentTokenBasedRememberMeServices services =
+                new PersistentTokenBasedRememberMeServices("hello",
+                        spUserService,
+                        tokenRepository()
+                );
+        return services;
     }
 
 
