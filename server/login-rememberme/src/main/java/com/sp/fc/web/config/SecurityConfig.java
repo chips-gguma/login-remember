@@ -22,6 +22,7 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.servlet.http.HttpSessionEvent;
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 
 @EnableWebSecurity(debug = true)
@@ -32,11 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     RememberMeAuthenticationFilter rememberMeAuthenticationFilter;
     TokenBasedRememberMeServices tokenBasedRememberMeServices;
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-    
-    private final SpUserService spUserService;
 
-    public SecurityConfig(SpUserService spUserService) {
+    private final SpUserService spUserService;
+    private final DataSource dataSource;
+
+    public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
         this.spUserService = spUserService;
+        this.dataSource = dataSource;
     }
 
     @Override
