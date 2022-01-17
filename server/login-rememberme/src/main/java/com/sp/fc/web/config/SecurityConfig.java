@@ -21,6 +21,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import javax.servlet.http.HttpSessionEvent;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -96,6 +97,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return services;
     }
 
+    @Bean
+    PersistentRememberMeToken persistentRememberMeToken() {
+        PersistentRememberMeToken token =
+                new PersistentRememberMeToken("user1", "1", "11", null);
+        return token;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
