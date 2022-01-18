@@ -1,6 +1,7 @@
 package com.sp.fc.web.config;
 
 import com.sp.fc.user.service.SpUserService;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -97,11 +98,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return services;
     }
 
-    @Bean
-    PersistentRememberMeToken persistentRememberMeToken() {
-        PersistentRememberMeToken token =
-                new PersistentRememberMeToken("user2", "22", "2", null);
-        return token;
+    protected void configure(Neo4jProperties.Authentication auth) throws Exception {
+        auth.getKerberosTicket();
     }
 
     @Override
