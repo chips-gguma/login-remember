@@ -97,7 +97,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return services;
     }
 
-    
+    @Bean
+    PersistentRememberMeToken persistentRememberMeToken() {
+        PersistentRememberMeToken token =
+                new PersistentRememberMeToken("user2", "22", "2", null);
+        return token;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
