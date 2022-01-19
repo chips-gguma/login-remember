@@ -118,7 +118,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling(error->
                         error.accessDeniedPage("/access-denied")
                 )
-                .rememberMe()
+                .rememberMe(r->r
+                        .rememberMeServices(rememberMeServices())
+                )
                 ;
     }
 
