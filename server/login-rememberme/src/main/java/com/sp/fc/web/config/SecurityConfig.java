@@ -84,12 +84,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     PersistentTokenRepository tokenRepository() {
         JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
-
+        repository.setDataSource(dataSource);
         return repository;
     }
 
     @Bean
-    PersistentTokenBasedRememberMeServices rememberMeServices() {
+    PersistentTokenBasedRememberMeServices rememberMeServices() { // repository를 넘겨서 rememberMeService 만듦
         PersistentTokenBasedRememberMeServices services =
                 new PersistentTokenBasedRememberMeServices("hello",
                         spUserService,
@@ -98,9 +98,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return services;
     }
 
-    protected void configure(Neo4jProperties.Authentication auth) throws Exception {
-        auth.getKerberosTicket();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
