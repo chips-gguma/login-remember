@@ -85,6 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PersistentTokenRepository tokenRepository() {
         JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
         repository.setDataSource(dataSource);
+        try {
+            repository.removeUserTokens("1");
+        }catch (Exception ex) { // table 이 없으면 error (table 을 만듦)
+            repository.setCreateTableOnStartup(true);
+        }
         return repository;
     }
 
