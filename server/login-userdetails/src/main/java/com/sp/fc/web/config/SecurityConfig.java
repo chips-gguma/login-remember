@@ -14,15 +14,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SpUserService spUserService;
+    private final DataSource dataSource;
 
-    public SecurityConfig(SpUserService spUserService) {
+    public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
         this.spUserService = spUserService;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -40,6 +47,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
         return roleHierarchy;
+    }
+
+    @Bean
+    PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+        repository.setDataSource(dataSource);
+        try {
+            repository.removeUserTokens("1");
+        }catch (Exception ex) { // table 이 없으면 error (table 을 만듦)
+            repository.setCreateTableOnStartup(true);
+        }
+        return repository;
     }
 
     @Override
