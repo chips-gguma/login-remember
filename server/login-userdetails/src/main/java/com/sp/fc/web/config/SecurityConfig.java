@@ -25,11 +25,10 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SpUserService spUserService;
-    private final DataSource dataSource;
 
-    public SecurityConfig(SpUserService spUserService, DataSource dataSource) {
+    public SecurityConfig(SpUserService spUserService) {
         this.spUserService = spUserService;
-        this.dataSource = dataSource;
+
     }
 
     @Override
@@ -49,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return roleHierarchy;
     }
 
-    
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
