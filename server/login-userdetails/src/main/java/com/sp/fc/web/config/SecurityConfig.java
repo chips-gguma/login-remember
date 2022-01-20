@@ -49,17 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return roleHierarchy;
     }
 
-    @Bean
-    PersistentTokenRepository tokenRepository() {
-        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
-        repository.setDataSource(dataSource);
-        try {
-            repository.removeUserTokens("1");
-        }catch (Exception ex) { // table 이 없으면 error (table 을 만듦)
-            repository.setCreateTableOnStartup(true);
-        }
-        return repository;
-    }
+    
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
